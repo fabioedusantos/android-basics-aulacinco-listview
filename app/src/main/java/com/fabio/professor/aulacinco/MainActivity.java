@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadListView() {
-        String[] values = new String[]{
+        final String[] values = new String[]{
                 "José",
                 "Mario",
                 "Roberto",
@@ -32,21 +32,39 @@ public class MainActivity extends AppCompatActivity {
                 "João",
                 "Luis"
         };
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                MainActivity.this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,
+                values);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView,
+                                    View view, int position, long id) {
                 String texto = listView.getItemAtPosition(position).toString();
 
-                Toast.makeText(MainActivity.this,
-                        "Posição :" + position + "  Item: " + texto,
+                Toast.makeText(MainActivity.this, "Posição: " + position
+                                + " Item: " + texto,
                         Toast.LENGTH_SHORT).show();
             }
+        });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view,
+                                           int position, long id) {
+
+                String texto = listView.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, "Long -> Posição: " + position
+                                + " Item: " + texto,
+                        Toast.LENGTH_SHORT).show();
+
+                //return true não dispara o OnItemClick,
+                //return false dispara o OnItemClick após esta execução
+                return true;
+            }
         });
     }
+
 }
